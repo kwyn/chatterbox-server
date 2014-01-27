@@ -1,0 +1,16 @@
+body {
+    background: #eee;
+    text-align: left;
+    padding: 0 25px;
+}
+.username{
+    font-weight:bold;
+}
+.timestamp {
+    font-weight:normal;
+    font-size: 0.75em;
+}
+.friend{
+    font-weight:bold;
+    font-color:green;
+}
