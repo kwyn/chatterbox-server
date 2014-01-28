@@ -16,12 +16,14 @@ var handleRequest = function(request, response) {
   var statusCode;
   var parsedURL = url.parse(request.url);
   console.log(parsedURL.pathname);
+
   var validURLs = {
-    "/classes/room1" : true
+    "/classes/room1" : true,
+    "/classes/messages" : true
   };
 
   if(validURLs[parsedURL.pathname]){
-      if(request.method === 'GET') {
+      if(request.method === 'GET' || request.method === "OPTIONS") {
         statusCode = 200;
       } else if (request.method === 'POST'){
         request.on('data', function (chunk) {
@@ -61,7 +63,7 @@ var handleRequest = function(request, response) {
 var defaultCorsHeaders = {
   "access-control-allow-origin": "*",
   "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "access-control-allow-headers": "content-type, accept",
+  "access-control-allow-headers": "X-Requested-With, content-type, accept",
   "access-control-max-age": 10 // Seconds.
 };
 

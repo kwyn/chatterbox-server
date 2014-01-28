@@ -13,14 +13,14 @@ var username = currentUsername();
 //----------------------------------------------------------------------------
 var changeUsername = function(newName){
   username = newName;
-}
+};
 //----------------------------------------------------------------------------
 var changeRoom = function(roomName){
   currentRoom = ''+roomName;
-}
+};
 //----------------------------------------------------------------------------
 var getRecentRooms = function(){
-  $.getJSON("https://api.parse.com/1/classes/chatterbox",
+  $.getJSON("http://127.0.0.1:8080/classes/room1",
    {where: '{"roomname":{"$exists":true}}', order :"-createdAt"},
    function(data){
     messageList = data.results;
@@ -38,20 +38,20 @@ var getRecentRooms = function(){
 var get = function(){
   var where = '{ "roomname" : "'+ currentRoom +'" }';
   $(".spinner").show();
-  $.getJSON("https://api.parse.com/1/classes/chatterbox", 
+  $.getJSON("http://127.0.0.1:8080/classes/messages", 
     {order: "-createdAt", where : where},
     display);
 };
 //----------------------------------------------------------------------------
 var display = function(data){
   var messageCount = displayCount || 10;
-  var rawMessages = data.results.slice(0,messageCount);
+  var rawMessages = data;
   $(".spinner").hide();
   $(".post").remove();
   _.each(rawMessages , function(rawData){
     var format = '';
     if(friends.indexOf(rawData.username) >= 0){
-      format = "<div id= " + rawData.objectId + " class = 'post panel panel-default'> <div class = ' panel-heading' > <span <a class='username friend'> </a> </div> <div class = 'message panel-body'> </div> </div>"
+      format = "<div id= " + rawData.objectId + " class = 'post panel panel-default'> <div class = ' panel-heading' > <span <a class='username friend'> </a> </div> <div class = 'message panel-body'> </div> </div>";
     }else{
       format = "<div id= " + rawData.objectId + " class = 'post panel panel-default'> <div class = 'panel-heading' > <a class='username'> </a> </div> <div class = 'message panel-body'> </div> </div>";
     }
@@ -67,7 +67,7 @@ var display = function(data){
 //----------------------------------------------------------------------------
 var send = function(test){
   $.ajax({
-    url: 'https://api.parse.com/1/classes/chatterbox',
+    url: 'http://127.0.0.1:8080/classes/messages',
     type: 'POST',
     data: JSON.stringify(test),
     contentType: 'application/json',
@@ -104,7 +104,7 @@ var chatRoomDropDown = function(){
 };
 //----------------------------------------------------------------------------
 var addFriend = function(newFriend){
-  if(friends.indexOf(newFriend) !== -1 && newFriend != undefined){
+  if(friends.indexOf(newFriend) !== -1 && newFriend !== undefined){
     friends.push(newFriend);
   }
 };
@@ -147,7 +147,7 @@ $(document).ready(function(){
     e.preventDefault();
     console.log(value);
     friends.push(e);
-  })
+  });
 
   $('.chatroom-list').on('click','a', function(){
     if(this.text === "Chat-strap"){
@@ -161,4 +161,4 @@ $(document).ready(function(){
 });
 //----------------------------------------------------------------------------
 get(currentRoom);
-setInterval( function(){get(currentRoom);}, 1000000);
+setInterval( function(){get(currentRoom);}, 3000);
