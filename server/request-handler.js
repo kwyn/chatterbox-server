@@ -27,8 +27,9 @@ var handleRequest = function(request, response) {
         statusCode = 200;
       } else if (request.method === 'POST'){
         request.on('data', function (chunk) {
-          data.push(JSON.parse(chunk));
-          console.log("new data: " + JSON.stringify(data, null, 2));
+          rawData = JSON.parse(chunk);
+          rawData.objectId = Math.floor(Math.random()*1000000);
+          data.push(rawData);
         });
       statusCode = 201;
       }

@@ -161,4 +161,4 @@ $(document).ready(function(){
 });
 //----------------------------------------------------------------------------
 get(currentRoom);
-setInterval( function(){get(currentRoom);}, 3000);
+setInterval( function(){get(currentRoom);}, 10000);
